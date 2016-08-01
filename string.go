@@ -7,7 +7,6 @@ import (
 	"strings"
 )
 
-<<<<<<< HEAD
 func removeChar(src, rmchar string) (ret int) {
 	src = strings.TrimLeft(src, " ")
 	data := strings.Replace(src, ",", "", -1)
