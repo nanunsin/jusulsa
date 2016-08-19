@@ -22,11 +22,19 @@ func NewBot(code string) *Mark1 {
 	return bot
 }
 
-func (bot *Mark1) Print() {
+func (bot *Mark1) PrintAll() {
 	for i := 0; i < len(bot.ObjInfo); i++ {
 		fmt.Printf("%s\t", bot.ObjInfo[i].TimeStr)
 		fmt.Printf("%d(%d)\t", bot.ObjInfo[i].Data.Price, bot.ObjInfo[i].Volume)
 		fmt.Printf("%d\n", bot.ObjInfo[i].Curve)
+	}
+}
+
+func (bot *Mark1) PrintAt(index int) {
+	if len(bot.ObjInfo) >= index {
+		fmt.Printf("%s\t", bot.ObjInfo[index].TimeStr)
+		fmt.Printf("%d(%d)\t", bot.ObjInfo[index].Data.Price, bot.ObjInfo[index].Volume)
+		fmt.Printf("%d\n", bot.ObjInfo[index].Curve)
 	}
 }
 
