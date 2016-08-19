@@ -30,7 +30,7 @@ func (bot *Mark1) Print() {
 	}
 }
 
-func (bot *Mark1) queryWorks() {
+func (bot *Mark1) QueryWorks() {
 	bot.ObjInfo = append(bot.ObjInfo, *QueryData(bot.Code))
 	size := len(bot.ObjInfo) - 1
 
@@ -41,6 +41,6 @@ func (bot *Mark1) queryWorks() {
 	}
 }
 
-func analyzeWork() {
+func AnalyzeWork() {
 	return
 }
