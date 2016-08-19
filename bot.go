@@ -6,8 +6,20 @@ import (
 )
 
 type Mark1 struct {
-	Today   string
+	Date    string
 	ObjInfo []QryInfo
+	Code    string
+}
+
+// NewBot func Create New Bot one
+func NewBot(code string) *Mark1 {
+	y, m, d := time.Now().Date()
+	today := fmt.Sprintf("%04d%02d%02d", y, m, d)
+	bot := &Mark1{
+		Date: today,
+		Code: code,
+	}
+	return bot
 }
 
 func (bot *Mark1) Print() {
@@ -18,18 +30,17 @@ func (bot *Mark1) Print() {
 	}
 }
 
-func Works(code string) {
-	fmt.Println(code + " work start")
-	var bot Mark1
-	for i := 0; i < 5; i++ {
-		bot.ObjInfo = append(bot.ObjInfo, *QueryData(code))
-		if i == 0 {
-			makeInfoStep1(nil, &bot.ObjInfo[0])
-		} else {
-			makeInfoStep1(&bot.ObjInfo[i-1], &bot.ObjInfo[i])
-		}
+func (bot *Mark1) queryWorks() {
+	bot.ObjInfo = append(bot.ObjInfo, *QueryData(bot.Code))
+	size := len(bot.ObjInfo) - 1
 
-		<-time.After(time.Second * 5)
+	if size == 0 {
+		makeInfoStep1(nil, &bot.ObjInfo[0])
+	} else {
+		makeInfoStep1(&bot.ObjInfo[size-1], &bot.ObjInfo[size])
 	}
-	bot.Print()
+}
+
+func analyzeWork() {
+	return
 }

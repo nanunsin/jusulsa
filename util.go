@@ -7,6 +7,6 @@ import (
 
 func getCurTimeString() (ret string) {
 	h, m, s := time.Now().Clock()
-	ret = fmt.Sprintf("%02d%02d%02d", h, m, s)
+	ret = fmt.Sprintf("%02d%02d%02d", h, m, (s/10)*10)
 	return ret
 }
