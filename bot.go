@@ -24,7 +24,8 @@ func NewBot(code string) *Mark1 {
 
 func (bot *Mark1) PrintAll() {
 	for i := 0; i < len(bot.ObjInfo); i++ {
-		fmt.Printf("%s\t", bot.ObjInfo[i].TimeStr)
+		//fmt.Printf("%s\t", bot.ObjInfo[i].TimeStamp.String())
+		printTimeStamp(bot.ObjInfo[i].TimeStamp, 10)
 		fmt.Printf("%d(%d)\t", bot.ObjInfo[i].Data.Price, bot.ObjInfo[i].Volume)
 		fmt.Printf("%d\n", bot.ObjInfo[i].Curve)
 	}
@@ -32,7 +33,8 @@ func (bot *Mark1) PrintAll() {
 
 func (bot *Mark1) PrintAt(index int) {
 	if len(bot.ObjInfo) >= index {
-		fmt.Printf("%s\t", bot.ObjInfo[index].TimeStr)
+		//fmt.Printf("%s\t", bot.ObjInfo[index].TimeStamp.String())
+		printTimeStamp(bot.ObjInfo[index].TimeStamp, 10)
 		fmt.Printf("%d(%d)\t", bot.ObjInfo[index].Data.Price, bot.ObjInfo[index].Volume)
 		fmt.Printf("%d\n", bot.ObjInfo[index].Curve)
 	}

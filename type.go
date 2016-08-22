@@ -1,6 +1,9 @@
 package jusulsa
 
+import "time"
+
 // define types
+
 // QryData 는 수집한 data
 type QryData struct {
 	Price       int
@@ -10,7 +13,7 @@ type QryData struct {
 
 // QryInfo 는 수집한 data를 가지고 추가로 정제한 정보
 type QryInfo struct {
-	TimeStr          string
+	TimeStamp        time.Time
 	Data             *QryData
 	Volume           int
 	VolumeRatio      float32
@@ -19,6 +22,7 @@ type QryInfo struct {
 	Curve            int
 }
 
+// NewQryInfo : make new Query Infomation one.
 func NewQryInfo() *QryInfo {
 	qrydata := &QryData{
 		Price:       0,
@@ -28,7 +32,7 @@ func NewQryInfo() *QryInfo {
 	}
 
 	qryinfo := &QryInfo{
-		TimeStr:          getCurTimeString(),
+		TimeStamp:        time.Now(),
 		Data:             qrydata,
 		Volume:           0,
 		VolumeRatio:      0.0,
