@@ -6,14 +6,19 @@ import (
 )
 
 func Test_qry_QueryData(t *testing.T) {
-	data := QueryData("032980")
+	data := QueryData("023430")
 	if nil == data {
 		t.Error("querydata(123) error.")
 	}
 	if 0 == data.Data.Price {
-		t.Error("QueryData error.(1)")
+		t.Error("QueryData error.(Price)")
 	}
 	t.Logf("Price:%d\n", data.Data.Price)
+
+	if 0 == data.Data.Sell {
+		t.Error("QueryData error.(Sell)")
+	}
+	t.Logf("Sell:%d\tBuy:%d\t", data.Data.Sell, data.Data.Buy)
 }
 
 func Test_qry2(t *testing.T) {

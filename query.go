@@ -8,33 +8,42 @@ import (
 
 func QueryData(code string) *QryInfo {
 	qryinfo := NewQryInfo()
-	qryinfo.Data.Price, qryinfo.Data.TotalVolume = getPV(code)
-	qryinfo.Data.Sell, qryinfo.Data.Buy = getSB(code)
+	/*
+		qryinfo.Data.Price, qryinfo.Data.TotalVolume = getPV(code)
+		qryinfo.Data.Sell, qryinfo.Data.Buy = getSB(code)
+	*/
+	getData(code, qryinfo)
 	return qryinfo
 }
 
-func getPV(code string) (price int, volume int) {
+func getData(code string, qryinfo *QryInfo) {
 	qry := fmt.Sprintf("http://paxnet.moneta.co.kr/stock/stockIntro/stockPrice/immedStockList.jsp?code=%s&wlog_pip=T_stockPrice", code)
 	doc, e := goquery.NewDocument(qry)
 	if e != nil {
 		fmt.Println(e.Error())
 	}
-	object := doc.Find("#analysis").Find("tbody > tr > td")
+	objectPV := doc.Find("#analysis").Find("tbody > tr > td")
 
 	// 현재가
-	CPriceT := object.Eq(4).Text()
+	CPriceT := objectPV.Eq(4).Text()
 	// fmt.Println(CPriceT)
-	price = removeChar(CPriceT, ",")
+	qryinfo.Data.Price = removeChar(CPriceT, ",")
 
 	// 거래량
-	CVolumeT := object.Eq(16).Text()
+	CVolumeT := objectPV.Eq(16).Text()
 	// fmt.Println(CVolumeT)
-	volume = removeChar(CVolumeT, ",")
-	return
-}
+	qryinfo.Data.TotalVolume = removeChar(CVolumeT, ",")
 
-func getSB(code string) (sell, buy int) {
-	return 0, 0
+	objectSB := doc.Find("#10hoga").Find("tbody > tr").Eq(13).Find("td")
+
+	// 현재가
+	CSellT := objectSB.Eq(0).Text()
+	qryinfo.Data.Sell = removeChar(CSellT, ",")
+
+	// 거래량
+	CBuyT := objectSB.Eq(2).Text()
+	qryinfo.Data.Buy = removeChar(CBuyT, ",")
+	return
 }
 
 func makeInfoStep1(oinfo, cinfo *QryInfo) {
