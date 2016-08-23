@@ -39,6 +39,7 @@ func (bot *Mark1) PrintAt(index int) {
 		printTimeStamp(bot.ObjInfo[index].TimeStamp, 10)
 		fmt.Printf("\t%d(%d)", bot.ObjInfo[index].Data.Price, bot.ObjInfo[index].Volume)
 		fmt.Printf("\t%d", bot.ObjInfo[index].Curve)
+		fmt.Printf("\t[%d|%d(%f)]", bot.ObjInfo[index].Data.Sell, bot.ObjInfo[index].Data.Buy, bot.ObjInfo[index].SBRatio)
 		fmt.Println()
 	}
 }
