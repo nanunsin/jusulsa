@@ -49,22 +49,23 @@ func getData(code string, qryinfo *QryInfo) {
 func makeInfoStep1(oinfo, cinfo *QryInfo) {
 	if nil == oinfo {
 		cinfo.Volume = cinfo.Data.TotalVolume
-	} else {
-		cinfo.Volume = cinfo.Data.TotalVolume - oinfo.Data.TotalVolume
-		if cinfo.Data.Price > oinfo.Data.Price {
-			if oinfo.Curve >= 0 {
-				cinfo.Curve = oinfo.Curve + 1
-			} else {
-				cinfo.Curve = 0
-			}
-		} else if cinfo.Data.Price == oinfo.Data.Price {
-			cinfo.Curve = oinfo.Curve
-		} else { // <
-			if oinfo.Curve <= 0 {
-				cinfo.Curve = oinfo.Curve - 1
-			} else {
-				cinfo.Curve = 0
-			}
+		return
+	}
+
+	cinfo.Volume = cinfo.Data.TotalVolume - oinfo.Data.TotalVolume
+	if cinfo.Data.Price > oinfo.Data.Price {
+		if oinfo.Curve >= 0 {
+			cinfo.Curve = oinfo.Curve + 1
+		} else {
+			cinfo.Curve = 0
+		}
+	} else if cinfo.Data.Price == oinfo.Data.Price {
+		cinfo.Curve = oinfo.Curve
+	} else { // <
+		if oinfo.Curve <= 0 {
+			cinfo.Curve = oinfo.Curve - 1
+		} else {
+			cinfo.Curve = 0
 		}
 	}
 }

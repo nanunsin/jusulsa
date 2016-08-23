@@ -5,6 +5,7 @@ import (
 	"time"
 )
 
+// Mark1 is mybot
 type Mark1 struct {
 	Date    string
 	ObjInfo []QryInfo
@@ -22,9 +23,9 @@ func NewBot(code string) *Mark1 {
 	return bot
 }
 
+// PrintAll print all objInfo data
 func (bot *Mark1) PrintAll() {
 	for i := 0; i < len(bot.ObjInfo); i++ {
-		//fmt.Printf("%s\t", bot.ObjInfo[i].TimeStamp.String())
 		printTimeStamp(bot.ObjInfo[i].TimeStamp, 10)
 		fmt.Printf("\t%d(%d)", bot.ObjInfo[i].Data.Price, bot.ObjInfo[i].Volume)
 		fmt.Printf("\t%d", bot.ObjInfo[i].Curve)
@@ -32,9 +33,9 @@ func (bot *Mark1) PrintAll() {
 	}
 }
 
+// PrintAt print objInfo[index] data
 func (bot *Mark1) PrintAt(index int) {
 	if len(bot.ObjInfo) >= index {
-		//fmt.Printf("%s\t", bot.ObjInfo[index].TimeStamp.String())
 		printTimeStamp(bot.ObjInfo[index].TimeStamp, 10)
 		fmt.Printf("\t%d(%d)", bot.ObjInfo[index].Data.Price, bot.ObjInfo[index].Volume)
 		fmt.Printf("\t%d", bot.ObjInfo[index].Curve)
@@ -42,6 +43,8 @@ func (bot *Mark1) PrintAt(index int) {
 	}
 }
 
+// QueryWorks collect data and add list
+// some works
 func (bot *Mark1) QueryWorks() {
 	bot.ObjInfo = append(bot.ObjInfo, *QueryData(bot.Code))
 	size := len(bot.ObjInfo) - 1
@@ -53,6 +56,19 @@ func (bot *Mark1) QueryWorks() {
 	}
 }
 
-func AnalyzeWork() {
+// AnalyzeWorks analyze QueryData
+func (bot *Mark1) AnalyzeWorks() {
+	index := len(bot.ObjInfo) - 1
+	CurInfo := bot.ObjInfo[index]
+	// SB
+	if CurInfo.Data.Sell != 0 {
+		CurInfo.SBRatio = float32(CurInfo.Data.Buy) / float32(CurInfo.Data.Sell)
+	}
+
+	if (CurInfo.Curve > 2) && (CurInfo.SBRatio) > 1.0 {
+		SendToU(bot.Code, "BBB", true)
+	} else if (CurInfo.Curve < -2) && (CurInfo.SBRatio) < 1.0 {
+		SendToU(bot.Code, "SSS", true)
+	}
 	return
 }

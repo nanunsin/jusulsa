@@ -3,6 +3,11 @@ package jusulsa
 import "time"
 
 // define types
+const (
+	OPI_None = 0
+	OPI_SS   = 1
+	OPI_BB   = 2
+)
 
 // QryData 는 수집한 data
 type QryData struct {
@@ -20,6 +25,7 @@ type QryInfo struct {
 	TotalVolumeRatio float32
 	SBRatio          float32
 	Curve            int
+	Opinion          int
 }
 
 // NewQryInfo : make new Query Infomation one.
@@ -39,6 +45,7 @@ func NewQryInfo() *QryInfo {
 		TotalVolumeRatio: 0.0,
 		SBRatio:          0.0,
 		Curve:            0,
+		Opinion:          OPI_None,
 	}
 
 	return qryinfo
