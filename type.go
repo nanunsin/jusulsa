@@ -4,9 +4,9 @@ import "time"
 
 // define types
 const (
-	OPI_None = 0
-	OPI_SS   = 1
-	OPI_BB   = 2
+	OpinionNone = 0
+	OpinionSS   = 1
+	OpinionBB   = 2
 )
 
 // QryData 는 수집한 data
@@ -45,7 +45,7 @@ func NewQryInfo() *QryInfo {
 		TotalVolumeRatio: 0.0,
 		SBRatio:          0.0,
 		Curve:            0,
-		Opinion:          OPI_None,
+		Opinion:          OpinionNone,
 	}
 
 	return qryinfo
