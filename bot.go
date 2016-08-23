@@ -61,10 +61,6 @@ func (bot *Mark1) QueryWorks() {
 func (bot *Mark1) AnalyzeWorks() {
 	index := len(bot.ObjInfo) - 1
 	CurInfo := bot.ObjInfo[index]
-	// SB
-	if CurInfo.Data.Sell != 0 {
-		CurInfo.SBRatio = float32(CurInfo.Data.Buy) / float32(CurInfo.Data.Sell)
-	}
 
 	if (CurInfo.Curve > 2) && (CurInfo.SBRatio) > 1.0 {
 		SendToU(bot.Code, "BBB", true)

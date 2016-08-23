@@ -51,8 +51,8 @@ func getData(code string, qryinfo *QryInfo) {
 func makeInfoStep1(oinfo, cinfo *QryInfo) {
 
 	// calc SBRatio
-	if cinfo.Data.Sell > 0 {
-		cinfo.SBRatio = float32(cinfo.Data.Buy) / float32(cinfo.Data.Sell)
+	if cinfo.Data.Buy > 0 {
+		cinfo.SBRatio = float32(cinfo.Data.Sell) / float32(cinfo.Data.Buy)
 	}
 
 	// Volume
