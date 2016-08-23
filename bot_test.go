@@ -15,7 +15,7 @@ func Test_worker(t *testing.T) {
 	bot := NewBot("015760")
 	for i := 0; i < 2; i++ {
 		bot.QueryWorks()
-		<-time.After(time.Second * 10)
 		bot.PrintAt(i)
+		<-time.After(time.Second * 10)
 	}
 }

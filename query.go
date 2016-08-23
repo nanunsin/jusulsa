@@ -34,19 +34,28 @@ func getData(code string, qryinfo *QryInfo) {
 	// fmt.Println(CVolumeT)
 	qryinfo.Data.TotalVolume = removeChar(CVolumeT, ",")
 
-	objectSB := doc.Find("#10hoga").Find("tbody > tr").Eq(13).Find("td")
+	objectSB := doc.Find("#10hoga").Find("tbody > tr").Eq(12).Find("td")
 
 	// 현재가
 	CSellT := objectSB.Eq(0).Text()
+	//fmt.Println(CSellT)
 	qryinfo.Data.Sell = removeChar(CSellT, ",")
 
 	// 거래량
 	CBuyT := objectSB.Eq(2).Text()
+	//fmt.Println(CBuyT)
 	qryinfo.Data.Buy = removeChar(CBuyT, ",")
 	return
 }
 
 func makeInfoStep1(oinfo, cinfo *QryInfo) {
+
+	// calc SBRatio
+	if cinfo.Data.Sell > 0 {
+		cinfo.SBRatio = float32(cinfo.Data.Buy) / float32(cinfo.Data.Sell)
+	}
+
+	// Volume
 	if nil == oinfo {
 		cinfo.Volume = cinfo.Data.TotalVolume
 		return
