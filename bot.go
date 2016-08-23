@@ -63,9 +63,13 @@ func (bot *Mark1) AnalyzeWorks() {
 	CurInfo := bot.ObjInfo[index]
 
 	if (CurInfo.Curve > 2) && (CurInfo.SBRatio) > 1.0 {
-		SendToU(bot.Code, "BBB", true)
+		title := fmt.Sprintf("%s-BBB", bot.Code)
+		msg := fmt.Sprintf("%d  %f", CurInfo.Data.Price, CurInfo.SBRatio)
+		SendToU(title, msg, true)
 	} else if (CurInfo.Curve < -2) && (CurInfo.SBRatio) < 1.0 {
-		SendToU(bot.Code, "SSS", true)
+		title := fmt.Sprintf("%s-SSS", bot.Code)
+		msg := fmt.Sprintf("%d  %f", CurInfo.Data.Price, CurInfo.SBRatio)
+		SendToU(title, msg, true)
 	}
 	return
 }
