@@ -5,11 +5,17 @@ import (
 	"time"
 )
 
+type Average struct {
+	Price  int
+	Volume int
+}
+
 // Mark1 is mybot
 type Mark1 struct {
 	Date    string
 	ObjInfo []QryInfo
 	Code    string
+	Avg     Average
 }
 
 // NewBot func Create New Bot one
@@ -40,6 +46,7 @@ func (bot *Mark1) PrintAt(index int) {
 		fmt.Printf("\t%d(%d)", bot.ObjInfo[index].Data.Price, bot.ObjInfo[index].Volume)
 		fmt.Printf("\t%d", bot.ObjInfo[index].Curve)
 		fmt.Printf("\t[%d|%d(%f)]", bot.ObjInfo[index].Data.Sell, bot.ObjInfo[index].Data.Buy, bot.ObjInfo[index].SBRatio)
+		fmt.Printf("\t%d", bot.Avg.Volume)
 		fmt.Println()
 	}
 }
@@ -54,6 +61,7 @@ func (bot *Mark1) QueryWorks() {
 		makeInfoStep1(nil, &bot.ObjInfo[0])
 	} else {
 		makeInfoStep1(&bot.ObjInfo[size-1], &bot.ObjInfo[size])
+		bot.Avg.Volume = (bot.Avg.Volume + (bot.ObjInfo[size].Volume * size)) / (size + 1)
 	}
 }
 
