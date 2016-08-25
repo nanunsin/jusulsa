@@ -61,7 +61,7 @@ func (bot *Mark1) QueryWorks() {
 		makeInfoStep1(nil, &bot.ObjInfo[0])
 	} else {
 		makeInfoStep1(&bot.ObjInfo[size-1], &bot.ObjInfo[size])
-		bot.Avg.Volume = (bot.Avg.Volume + (bot.ObjInfo[size].Volume * size)) / (size + 1)
+		bot.Avg.Volume = (bot.ObjInfo[size].Volume + (bot.Avg.Volume * size)) / (size + 1)
 	}
 }
 
