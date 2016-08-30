@@ -66,18 +66,18 @@ func (bot *Mark1) QueryWorks() {
 }
 
 // AnalyzeWorks analyze QueryData
-func (bot *Mark1) AnalyzeWorks() {
+func (bot *Mark1) AnalyzeWorks(alarm bool) {
 	index := len(bot.ObjInfo) - 1
 	CurInfo := bot.ObjInfo[index]
 
 	if (CurInfo.Curve > 2) && (CurInfo.SBRatio) > 1.0 {
 		title := fmt.Sprintf("%s-BBB", bot.Code)
 		msg := fmt.Sprintf("%d  %f", CurInfo.Data.Price, CurInfo.SBRatio)
-		SendToU(title, msg, true)
+		SendToU(title, msg, alarm)
 	} else if (CurInfo.Curve < -2) && (CurInfo.SBRatio) < 1.0 {
 		title := fmt.Sprintf("%s-SSS", bot.Code)
 		msg := fmt.Sprintf("%d  %f", CurInfo.Data.Price, CurInfo.SBRatio)
-		SendToU(title, msg, true)
+		SendToU(title, msg, alarm)
 	}
 	return
 }
