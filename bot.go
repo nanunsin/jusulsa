@@ -59,6 +59,12 @@ func (bot *Mark1) QueryWorks() {
 
 	if size == 0 {
 		makeInfoStep1(nil, &bot.ObjInfo[0])
+		Index := getTimeStampIndex()
+		if Index == 0 {
+			bot.Avg.Volume = bot.ObjInfo[size].Volume
+		} else {
+			bot.Avg.Volume = (bot.ObjInfo[size].Data.TotalVolume / Index)
+		}
 	} else {
 		makeInfoStep1(&bot.ObjInfo[size-1], &bot.ObjInfo[size])
 		bot.Avg.Volume = (bot.ObjInfo[size].Volume + (bot.Avg.Volume * size)) / (size + 1)

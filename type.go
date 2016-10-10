@@ -50,3 +50,11 @@ func NewQryInfo() *QryInfo {
 
 	return qryinfo
 }
+
+// AnalyzeRule be used in analyze.go and analyzerule.go
+type AnalyzeRule struct {
+	Sensitivity int
+	Price       int
+	VolumeRatio int
+	Curve       int
+}

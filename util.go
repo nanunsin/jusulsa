@@ -21,3 +21,10 @@ func getTimeStamp(timestamp time.Time, round int) string {
 	h, m, s := timestamp.Round(time.Second * time.Duration(round)).Clock()
 	return fmt.Sprintf("%02d%02d%02d", h, m, s)
 }
+
+func getTimeStampIndex() int {
+	now := time.Now()
+	base := time.Date(now.Year(), now.Month(), now.Day(), 9, 00, 0, 0, now.Location())
+	data := time.Now().Sub(base).Seconds()
+	return (int)(data / 10)
+}
