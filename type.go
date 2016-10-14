@@ -19,6 +19,7 @@ type QryData struct {
 // QryInfo 는 수집한 data를 가지고 추가로 정제한 정보
 type QryInfo struct {
 	TimeStamp        time.Time
+	Index            int
 	Data             *QryData
 	Volume           int
 	VolumeRatio      float32
@@ -39,6 +40,7 @@ func NewQryInfo() *QryInfo {
 
 	qryinfo := &QryInfo{
 		TimeStamp:        time.Now(),
+		Index:            0,
 		Data:             qrydata,
 		Volume:           0,
 		VolumeRatio:      0.0,
