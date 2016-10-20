@@ -1,7 +1,9 @@
 package main
 
 import (
-	"sync"
+	"bufio"
+	"os"
+	"runtime"
 	"time"
 )
 
@@ -11,20 +13,32 @@ const (
 	Running = 2
 )
 
+func Query(qa *QueenAnt) {
+	for {
+		if isCont() {
+			runtime.Gosched()
+			qa.GetReport()
+			<-time.After(time.Second * 10)
+		} else {
+			return
+		}
+	}
+}
+
 func main() {
 
-	var wg sync.WaitGroup
+	userInput := bufio.NewScanner(os.Stdin)
+	qa := NewQueenAnt()
+	go qa.Run()
+	//	go Query(qa)
 
-	code := "006060"
-	bots := make(map[string]*Ant)
-	wg.Add(1)
-	bots[code] = NewAnt(code)
-	go bots[code].Run()
-	bots[code].state <- Running
-
-	<-time.After(time.Second * 20)
-	wg.Done()
-
-	wg.Wait()
-
+	for userInput.Scan() {
+		inputData := userInput.Text()
+		if len(inputData) == 6 {
+			ant := NewAnt(inputData, qa)
+			qa.Add(ant)
+		} else if "exit" == inputData {
+			break
+		}
+	}
 }

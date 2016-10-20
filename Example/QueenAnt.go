@@ -1,6 +1,9 @@
 package main
 
-import "log"
+import (
+	"fmt"
+	"log"
+)
 
 // QueenAnt is Ant's Manager
 type QueenAnt struct {
@@ -30,7 +33,7 @@ func (qa *QueenAnt) Del(ant *Ant) {
 }
 
 func (qa *QueenAnt) GetReport() {
-	return
+	qa.reportCh <- true
 }
 
 func (qa *QueenAnt) Done() {
@@ -38,6 +41,7 @@ func (qa *QueenAnt) Done() {
 }
 
 func (qa *QueenAnt) Run() {
+	fmt.Println("Run")
 	for {
 		select {
 		// Add Ant
@@ -45,17 +49,27 @@ func (qa *QueenAnt) Run() {
 			log.Println("Added new ant")
 			qa.bot[ant.code] = ant
 			log.Println("Now", len(qa.bot), "ants spawned.")
+			go ant.Run()
 		// Delete Ant
 		case ant := <-qa.delCh:
 			log.Println("Delete ant")
 			delete(qa.bot, ant.code)
 		// job done
 		case <-qa.reportCh:
-			log.Println("Reporting...")
 			// report
-			return
-		// job done
+			log.Println("Reporting...")
+			if len(qa.bot) > 0 {
+				for _, ant := range qa.bot {
+					data := ant.Report()
+					if data != nil {
+						log.Println(data.code, " : ", data.value)
+					}
+				}
+			} else {
+				log.Println("I've no Ant")
+			}
 		case <-qa.doneCh:
+			// all Ants stop and wait
 			return
 		}
 	}
