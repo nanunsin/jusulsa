@@ -1,4 +1,4 @@
-package Colony
+package main
 
 import (
 	"fmt"
@@ -8,26 +8,30 @@ import (
 )
 
 type Ant struct {
-	qa       *QueenAnt
-	code     string
-	doneCh   chan bool
-	collCh   chan bool
-	reportCh chan bool
-	bot      *jusulsa.Mark1
+	qa   *QueenAnt
+	code string
+	opCh chan uint
+	bot  *jusulsa.Mark1
 }
 
 func NewAnt(code string, qa *QueenAnt) *Ant {
 
-	doneCh := make(chan bool)
-	collCh := make(chan bool)
-	reportCh := make(chan bool)
+	opCh := make(chan uint, 5)
 	bot := jusulsa.NewBot(code)
 
-	return &Ant{qa, code, doneCh, collCh, reportCh, bot}
+	return &Ant{qa, code, opCh, bot}
 }
 
 func (ant *Ant) Collect() {
-	ant.collCh <- true
+	ant.opCh <- COLLECT
+}
+
+func (ant *Ant) Report() {
+	ant.opCh <- REPORT
+}
+
+func (ant *Ant) Done() {
+	ant.opCh <- DONE
 }
 
 func (ant *Ant) collect() {
@@ -43,24 +47,23 @@ func (ant *Ant) report() *AntReport {
 		lastdata := ant.bot.ObjInfo[len(ant.bot.ObjInfo)-1]
 		return &AntReport{ant.code, lastdata.Data.Price, lastdata.Volume, lastdata.Curve}
 	}
+	log.Println("size = 0")
 	return nil
-}
-
-func (ant *Ant) Report() {
-	ant.reportCh <- true
 }
 
 func (ant *Ant) Run() {
 	for {
 		select {
-		case <-ant.doneCh:
-			ant.qa.Del(ant)
-			ant.doneCh <- true
-			return
-		case <-ant.collCh:
-			ant.collect()
-		case <-ant.reportCh:
-			ant.qa.ReportDataCh <- ant.report()
+		case opcode := <-ant.opCh:
+			switch opcode {
+			case COLLECT:
+				ant.collect()
+			case REPORT:
+				ant.qa.ReportDataCh <- ant.report()
+			case DONE:
+				ant.qa.Del(ant)
+				return
+			}
 		}
 	}
 }

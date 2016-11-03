@@ -1,4 +1,4 @@
-package Colony
+package main
 
 type AntReport struct {
 	code   string
@@ -6,3 +6,9 @@ type AntReport struct {
 	volume int
 	curve  int
 }
+
+const (
+	COLLECT = 1
+	REPORT  = 2
+	DONE    = 3
+)
