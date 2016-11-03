@@ -19,6 +19,7 @@ func Test_Queen(t *testing.T) {
 	ant2 := NewAnt("007070", queen)
 	queen.Add(ant2)
 
+	queen.Collect()
 	time.Sleep(time.Second * 1)
 	queen.GetReport()
 

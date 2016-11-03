@@ -1,4 +1,4 @@
-package main
+package Colony
 
 type AntReport struct {
 	code   string
