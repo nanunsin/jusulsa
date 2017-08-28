@@ -17,31 +17,31 @@ func QueryData(code string) *QryInfo {
 }
 
 func getData(code string, qryinfo *QryInfo) {
-	qry := fmt.Sprintf("http://paxnet.moneta.co.kr/stock/stockIntro/stockPrice/immedStockList.jsp?code=%s&wlog_pip=T_stockPrice", code)
+	qry := fmt.Sprintf("http://finance.daum.net/item/quote.daum?code=%s", code)
 	doc, e := goquery.NewDocument(qry)
 	if e != nil {
 		fmt.Println(e.Error())
 	}
-	objectPV := doc.Find("#analysis").Find("tbody > tr > td")
+	objectPV := doc.Find(".leftDiv").Find("tbody > tr > td")
 
 	// 현재가
-	CPriceT := objectPV.Eq(4).Text()
-	// fmt.Println(CPriceT)
+	CPriceT := objectPV.Eq(1).Text()
+	//fmt.Println(CPriceT)
 	qryinfo.Data.Price = removeChar(CPriceT, ",")
 
 	// 거래량
-	CVolumeT := objectPV.Eq(16).Text()
+	CVolumeT := objectPV.Eq(13).Text()
 	// fmt.Println(CVolumeT)
 	qryinfo.Data.TotalVolume = removeChar(CVolumeT, ",")
 
-	objectSB := doc.Find("#10hoga").Find("tbody > tr").Eq(12).Find("td")
+	objectSB := doc.Find("#price10StepBody").Find("tfoot > tr").Eq(0).Find("td")
 
-	// 현재가
+	// 팔자
 	CSellT := objectSB.Eq(0).Text()
 	//fmt.Println(CSellT)
 	qryinfo.Data.Sell = removeChar(CSellT, ",")
 
-	// 거래량
+	// 사자
 	CBuyT := objectSB.Eq(2).Text()
 	//fmt.Println(CBuyT)
 	qryinfo.Data.Buy = removeChar(CBuyT, ",")
