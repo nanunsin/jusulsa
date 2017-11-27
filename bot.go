@@ -54,7 +54,7 @@ func (bot *Mark1) PrintAt(index int) {
 // QueryWorks collect data and add list
 // some works
 func (bot *Mark1) QueryWorks() {
-	bot.ObjInfo = append(bot.ObjInfo, *QueryData(bot.Code))
+	bot.ObjInfo = append(bot.ObjInfo, *QueryInfo(bot.Code))
 	size := len(bot.ObjInfo) - 1
 
 	if size == 0 {
