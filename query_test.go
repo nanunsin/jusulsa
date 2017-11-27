@@ -10,15 +10,15 @@ func Test_qry_QueryData(t *testing.T) {
 	if nil == data {
 		t.Error("querydata(123) error.")
 	}
-	if 0 == data.Data.Price {
+	if 0 == data.Price {
 		t.Error("QueryData error.(Price)")
 	}
-	t.Logf("Price:%d\n", data.Data.Price)
+	t.Logf("Price:%d\n", data.Price)
 
-	if 0 == data.Data.Sell {
+	if 0 == data.Sell {
 		t.Error("QueryData error.(Sell)")
 	}
-	t.Logf("Sell:%d\tBuy:%d\t", data.Data.Sell, data.Data.Buy)
+	t.Logf("Sell:%d\tBuy:%d\t", data.Sell, data.Buy)
 }
 
 func Test_qry2(t *testing.T) {
@@ -55,10 +55,10 @@ func Test_Step1(t *testing.T) {
 }
 
 func Test_Qrybot(t *testing.T) {
-	qinfo1 := QueryData("130960")
+	qinfo1 := QueryInfo("130960")
 	makeInfoStep1(nil, qinfo1)
 	time.Sleep(time.Second * 5)
-	qinfo2 := QueryData("130960")
+	qinfo2 := QueryInfo("130960")
 	makeInfoStep1(qinfo1, qinfo2)
 
 	t.Logf("%d -> %d", qinfo1.Data.Price, qinfo2.Data.Price)
