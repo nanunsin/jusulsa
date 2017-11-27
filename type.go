@@ -16,6 +16,16 @@ type QryData struct {
 	Sell, Buy   int
 }
 
+func NewQryData() *QryData {
+	instance := &QryData{
+		Price:       0,
+		TotalVolume: 0,
+		Sell:        0,
+		Buy:         0,
+	}
+	return instance
+}
+
 // QryInfo 는 수집한 data를 가지고 추가로 정제한 정보
 type QryInfo struct {
 	TimeStamp        time.Time

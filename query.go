@@ -6,17 +6,25 @@ import (
 	"github.com/PuerkitoBio/goquery"
 )
 
-func QueryData(code string) *QryInfo {
-	qryinfo := NewQryInfo()
+func QueryData(code string) *QryData {
+
+	qryData := NewQryData()
 	/*
 		qryinfo.Data.Price, qryinfo.Data.TotalVolume = getPV(code)
 		qryinfo.Data.Sell, qryinfo.Data.Buy = getSB(code)
 	*/
-	getData(code, qryinfo)
+	getData(code, qryData)
+	return qryData
+}
+
+func QueryInfo(code string) *QryInfo {
+	qryinfo := NewQryInfo()
+
+	getData(code, qryinfo.Data)
 	return qryinfo
 }
 
-func getData(code string, qryinfo *QryInfo) {
+func getData(code string, data *QryData) {
 	qry := fmt.Sprintf("http://finance.daum.net/item/quote.daum?code=%s", code)
 	doc, e := goquery.NewDocument(qry)
 	if e != nil {
@@ -27,24 +35,24 @@ func getData(code string, qryinfo *QryInfo) {
 	// 현재가
 	CPriceT := objectPV.Eq(1).Text()
 	//fmt.Println(CPriceT)
-	qryinfo.Data.Price = removeChar(CPriceT, ",")
+	data.Price = removeChar(CPriceT, ",")
 
 	// 거래량
 	CVolumeT := objectPV.Eq(13).Text()
 	// fmt.Println(CVolumeT)
-	qryinfo.Data.TotalVolume = removeChar(CVolumeT, ",")
+	data.TotalVolume = removeChar(CVolumeT, ",")
 
 	objectSB := doc.Find("#price10StepBody").Find("tfoot > tr").Eq(0).Find("td")
 
 	// 팔자
 	CSellT := objectSB.Eq(0).Text()
 	//fmt.Println(CSellT)
-	qryinfo.Data.Sell = removeChar(CSellT, ",")
+	data.Sell = removeChar(CSellT, ",")
 
 	// 사자
 	CBuyT := objectSB.Eq(2).Text()
 	//fmt.Println(CBuyT)
-	qryinfo.Data.Buy = removeChar(CBuyT, ",")
+	data.Buy = removeChar(CBuyT, ",")
 	return
 }
 
